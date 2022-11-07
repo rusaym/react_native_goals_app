@@ -17,7 +17,7 @@ export default function GoalItem({ itemData, deleteGoalHandler }) {
 const styles = StyleSheet.create({
   goalItem: {
     margin: 8,
-    borderRadius: 6,
+    borderRadius: 16,
     backgroundColor: '#5e0acc',
   },
 
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 
   goalText: {
-    padding: 8,
+    padding: 16,
     color: 'white',
   },
 })

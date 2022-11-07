@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { StyleSheet, View, FlatList, Button, Pressable } from 'react-native'
 import GoalInput from './components/GoalInput'
 import GoalItem from './components/GoalItem'
+import { StatusBar } from 'expo-status-bar'
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([])
@@ -11,11 +12,16 @@ export default function App() {
     setModalIsVisible(true)
   }
 
+  const endAddGoalHandler = () => {
+    setModalIsVisible(false)
+  }
+
   const addGoalHandler = (enteredGoalText) => {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ])
+    endAddGoalHandler()
   }
 
   const deleteGoalHandler = (id) => {
@@ -25,32 +31,36 @@ export default function App() {
   }
 
   return (
-    <View style={styles.appContainer}>
-      <Pressable>
-        <Button
-          title='Add New Goal'
-          color='#5e0acc'
-          onPress={startAddGoalHandler}
-        />
-      </Pressable>
+    <>
+      <StatusBar style='auto' />
+      <View style={styles.appContainer}>
+        <Pressable>
+          <Button
+            title='Add New Goal'
+            color='#5e0acc'
+            onPress={startAddGoalHandler}
+          />
+        </Pressable>
 
-      <GoalInput
-        addGoalHandler={addGoalHandler}
-        modalIsVisible={modalIsVisible}
-      />
-      <View style={styles.goalsContainer}>
-        <FlatList
-          keyExtractor={(item, index) => index}
-          data={courseGoals}
-          renderItem={(itemData) => (
-            <GoalItem
-              itemData={itemData}
-              deleteGoalHandler={deleteGoalHandler}
-            />
-          )}
+        <GoalInput
+          addGoalHandler={addGoalHandler}
+          modalIsVisible={modalIsVisible}
+          endAddGoalHandler={endAddGoalHandler}
         />
+        <View style={styles.goalsContainer}>
+          <FlatList
+            keyExtractor={(item, index) => index}
+            data={courseGoals}
+            renderItem={(itemData) => (
+              <GoalItem
+                itemData={itemData}
+                deleteGoalHandler={deleteGoalHandler}
+              />
+            )}
+          />
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 
